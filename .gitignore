@@ -1,0 +1,11 @@
+# Jupyter
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# Temp subagent runs
+**/tmp/
+
+# Runtime state
+state.json
+config.json
+watch.json
