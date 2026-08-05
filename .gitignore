@@ -9,3 +9,8 @@
 state.json
 config.json
 watch.json
+
+# Local secrets
+.env
+.env.*
+!.env.example
