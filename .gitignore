@@ -4,6 +4,7 @@
 
 # Temp subagent runs
 **/tmp/
+subagents/
 
 # Runtime state
 state.json
@@ -14,3 +15,22 @@ watch.json
 .env
 .env.*
 !.env.example
+.DS_Store
+
+# Skills: ignore all by default, track exceptions only
+skills/*
+!skills/git-commit/
+!skills/git-commit/**
+!skills/npm-release/
+!skills/npm-release/**
+!skills/resolve-merge-conflicts/
+!skills/resolve-merge-conflicts/**
+!skills/unity-skill/
+!skills/unity-skill/**
+!skills/x-growth-engine/
+!skills/x-growth-engine/**
+.skill-lock.json
+
+# Unity
+logs/
+unity/
