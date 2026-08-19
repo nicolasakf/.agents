@@ -209,8 +209,10 @@ own code comments say so.
 | Mute author | -58.8 | |
 | Report | -234.0 | |
 
-**Bookmarks are not scored.** There is no bookmark weight in the ranking code. Bookmark-bait
-tactics have no direct ranking effect.
+**Bookmarks carry no ranking weight.** There is no bookmark weight in `ranking_scorer.rs`, so
+bookmark-bait has no direct effect on For You ranking. Note the narrower claim: Phoenix does
+train an `IsBookmarked` head, and bookmarks are a positive retrieval action for the *immersive*
+feed, just not for home. See `references/algorithm-signals.md`.
 
 ### The mutual-follow boost is the biggest lever
 

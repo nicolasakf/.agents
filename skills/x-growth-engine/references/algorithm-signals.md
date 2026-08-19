@@ -71,10 +71,26 @@ Final score = Σ (weight × predicted probability), then three adjustments (belo
 
 ### Not in the model at all
 
-**Bookmarks are not a scored action.** `bookmark_count` is carried as post metadata in the
-retrieval index (`phoenix-rankall/`), but there is no bookmark head and no bookmark weight in
-`ranking_scorer.rs`. Advice built on "bookmarks are a top-tier ranking signal" is unsupported by
-this code.
+**Bookmarks carry no weight in For You ranking, but they are not absent from the model.** Be
+precise here; the sloppy version of this claim is wrong.
+
+- **No ranking weight.** `ScoringWeights` (`home-mixer/scorers/ranking_scorer.rs`) reads 27
+  weights from params and none is a bookmark weight. There is no `BookmarkWeight` in
+  `home-mixer/params/param.rs`. A bookmark adds nothing to a post's For You score.
+- **But there is a head.** `phoenix/xrex/data/recsys/constants.py` lists `IsBookmarked` as a
+  primary engagement label mapped to `ClientTweetBookmark`, alongside `IsFavorited` and
+  `IsReplied`. Phoenix predicts it. Home-mixer just multiplies that prediction by nothing.
+- **Viewer-side gate feature.** `ClientTweetBookmark` is part of `BM_SHARE_ACTIONS` in
+  `home-mixer/scorers/value_model_gate.rs`, feeding `n_bm_share`, 1 of 19 features in the
+  dwell-regret gate. That gate is computed from the *viewer's* own 28-day action history and
+  selects a ranking path for them. It says nothing about the post being scored.
+- **Positive for immersive retrieval only.** `phoenix/xrex/configs/xrecsys_two_tower.py` includes
+  `CLIENT_TWEET_BOOKMARK` in `immersive_positive_actions`. The home head's `positive_actions` is
+  `[SERVER_TWEET_FAV]` alone. Bookmarks pull retrieval in the immersive feed, not in For You.
+- `bookmark_count` is carried as post metadata in the retrieval index (`phoenix-rankall/`).
+
+So "bookmarks are a top-tier ranking signal" is unsupported. "There is no bookmark head" is also
+wrong. The defensible claim is: predicted, but unweighted in For You.
 
 Also absent: hashtag counts, post length, time of day, and author follower count or account age
 (except in the cold-start rule below).
